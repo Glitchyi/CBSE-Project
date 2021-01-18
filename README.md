@@ -14,7 +14,7 @@
  2. A `logical` and and `easy` UI which does not hinder the speed of the service at the restaurant.
  3. A `foolproof` Error prevention mechanism that does not allow the program to crash mid operation.
  4. The incorporation of a Database Management system so as to keep logs and track the data `essential` to the restaurant.
- 5. A `secure` and `easily` accessible log of customers and their billing information. 
+ 5. A `secure` and `easily` accessible log of customers and their billing information.  
  
 #### This is program that makes use of a very famous, easy and powerful, high level programming language called [**Python**](https://en.wikipedia.org/wiki/Python_(programming_language)) and,
 #### an equally powerful and versitile database management software called [**Mysql**](https://en.wikipedia.org/wiki/MySQL).  
@@ -23,9 +23,7 @@
  - [ ] Python 3.8 +
  - [ ] MySQL Connector/Python 8.0
  
----
-
-[DOWNLOADS](#Download links)
+--- 
 
 ## Python
 
@@ -60,7 +58,7 @@
 ---
 
 
-#### **Download links**
+#### Downloads 
 
 [![mysql](https://i.ibb.co/MCjFnY3/Mysql.png)](https://drive.google.com/file/d/1atgvrxOllQFe0fN6j3T2MJfnDmEaCNlH/view?usp=sharing)
 [![python](https://i.ibb.co/0XCPPcF/Python.png)](https://www.python.org/)
