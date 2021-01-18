@@ -1,6 +1,8 @@
 # **Restaurant Management system**
 ## CBSE Project
 ---
+<img align="right" width="170" height="170" src="https://raw.githubusercontent.com/Glitchyi/CBSE-Project/main/Logo.png?token=ANJXMX4Q4442ZACYAUZASC3AAURQI"> 
+
 > Memebers:  
  -  Vinayak K Raman  
  -  [Advaith Narayanan](https://twitter.com/advaithnarayan) 
@@ -20,9 +22,11 @@
 > **Prerequists :**
  - [ ] Python 3.8 +
  - [ ] MySQL Connector/Python 8.0
+ 
+ 
+ [Download Links](#DOWNLOAD-LINKS)
+ 
 
-[Download links](#DOWNLOAD-LINKS)
---- 
 ## Python
 
 <details><summary><b>Modules used:</summary></b> 
@@ -37,14 +41,27 @@
  - time
 </details>
 
-# MySQL 
+## MySQL 
+
+<details><summary><b>Tables</summary></b>  
+
+| Field | Type | Null | Key | Default | Extra |
+|----------|-------------|------|-----|---------|-------|
+| fno | int(3)      | NO   | PRIMARY KEY | NULL    |       |
+| fname | varchar(50) | YES  |     | NULL    |       |
+| type | varchar(20) | YES  |     | NULL    |       |
+| price  | int(5)      | YES  |     | NULL    |       |
+
+ </details>
+
 
 ---
-#### **DOWNLOAD-LINKS**
+
+# **DOWNLOAD-LINKS**
 
 [![mysql](https://i.ibb.co/MCjFnY3/Mysql.png)](https://drive.google.com/file/d/1atgvrxOllQFe0fN6j3T2MJfnDmEaCNlH/view?usp=sharing)
 [![python](https://i.ibb.co/0XCPPcF/Python.png)](https://www.python.org/)
 
 >**PIP COMMAND FOR MYSQL-CONNECTOR** 
-`pip install mysql-connector-python`
-[ˆ1]Hello
+`pip install mysql-connector-python` 
+
