@@ -1,7 +1,7 @@
 # **Restaurant Management system**
 ## CBSE Project
 ---
-<img align="right" width="170" height="170" src="https://raw.githubusercontent.com/Glitchyi/CBSE-Project/main/Logo.png?token=ANJXMX4Q4442ZACYAUZASC3AAURQI"> 
+<img align="right" width="170" height="170" src="https://i.imgur.com/oeCaInY.png"> 
 
 > Memebers:  
  -  Vinayak K Raman  
@@ -23,15 +23,16 @@
  - [ ] Python 3.8 +
  - [ ] MySQL Connector/Python 8.0
  
- 
- [Download Links](#DOWNLOAD-LINKS)
- 
+---
+
+[DOWNLOADS](#Download links)
 
 ## Python
 
 <details><summary><b>Modules used:</summary></b> 
 
 ##### No Custom modules are used
+
  - mysql.connector
  - csv
  - random
@@ -39,6 +40,7 @@
  - ssl
  - od
  - time
+ 
 </details>
 
 ## MySQL 
@@ -57,11 +59,12 @@
 
 ---
 
-# **DOWNLOAD-LINKS**
+
+#### **Download links**
 
 [![mysql](https://i.ibb.co/MCjFnY3/Mysql.png)](https://drive.google.com/file/d/1atgvrxOllQFe0fN6j3T2MJfnDmEaCNlH/view?usp=sharing)
 [![python](https://i.ibb.co/0XCPPcF/Python.png)](https://www.python.org/)
 
->**PIP COMMAND FOR MYSQL-CONNECTOR** 
-`pip install mysql-connector-python` 
+>**PIP COMMAND FOR MYSQL-CONNECTOR**
 
+`pip install mysql-connector-python`
