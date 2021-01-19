@@ -21,6 +21,7 @@
 ---
 > **Prerequists :**
  - [ ] Python 3.8 +
+ - [ ] MySQL 5.5
  - [ ] MySQL Connector/Python 8.0
  
 --- 
