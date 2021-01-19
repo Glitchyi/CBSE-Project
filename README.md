@@ -36,7 +36,7 @@
  - random
  - smtplib
  - ssl
- - od
+ - os
  - time
  
 </details>
