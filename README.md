@@ -7,7 +7,7 @@
  -  Vinayak K Raman  
  -  [Advaith Narayanan](https://twitter.com/advaithnarayan) 
  -  Meenakshi B S 
- -  Sudebh M S
+ -  M S Sudheb
  -  Suryakiran
 #### This project is to create and test a Restaurant Management Program that achives the following criterias:
  1. Store information abut the food served at the restaurant, along with its price and info on if it is Veg or Non-Veg.
@@ -21,6 +21,7 @@
 ---
 > **Prerequists :**
  - [ ] Python 3.8 +
+ - [ ] MySQL 5.5
  - [ ] MySQL Connector/Python 8.0
  
 --- 
@@ -36,7 +37,7 @@
  - random
  - smtplib
  - ssl
- - od
+ - os
  - time
  
 </details>
