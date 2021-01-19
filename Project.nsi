@@ -5,7 +5,7 @@ Outfile "MDDTS.exe"
 # by the predefined $DESKTOP variable
 InstallDir C:\
  
- Icon logo.ico
+ Icon other\logo.ico
 # default section
 Section
  
