@@ -28,9 +28,7 @@
 ## Python
 
 <details><summary><b>Modules used:</summary></b> 
-
-##### No Custom modules are used
-
+ 
  - mysql.connector
  - csv
  - random
@@ -58,7 +56,7 @@
 ---
 
 
-#### Downloads 
+>#### Downloads 
 
 [![mysql](https://i.ibb.co/MCjFnY3/Mysql.png)](https://drive.google.com/file/d/1atgvrxOllQFe0fN6j3T2MJfnDmEaCNlH/view?usp=sharing)
 [![python](https://i.ibb.co/0XCPPcF/Python.png)](https://www.python.org/)
