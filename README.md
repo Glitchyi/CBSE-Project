@@ -6,11 +6,11 @@
 
 - *I take this opportunity to express my sincere gratitude towards smt. Parvathy E, Principal and Smt. Remya Das, Vice Principal, Bhavan’s Vidya Mandir, Eroor who gave me an opportunity to present my project.*
 
-- *I also convey my sincere thanks to Smt. Subha Varma, my teacher for providing guidance and support for completing this project.
+- *I also convey my sincere thanks to Smt. Subha Varma, my teacher for providing guidance and support for completing this project.*
 
-- *I express my gratitude to my parents, teachers and friends for their constant support  and encouragement.
+- *I express my gratitude to my parents, teachers and friends for their constant support  and encouragement.*
 
-- *Above all I thank the God Almighty without whose blessings this project would not have been successful.
+- *Above all I thank the God Almighty without whose blessings this project would not have been successful.*
 
  ---
 
