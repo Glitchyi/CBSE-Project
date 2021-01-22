@@ -1,6 +1,31 @@
 # **Restaurant Management system**
 ## CBSE Project
 ---
+
+# ***ACKNOWLEDGEMENT***
+
+- *I take this opportunity to express my sincere gratitude towards smt. Parvathy E, Principal and Smt. Remya Das, Vice Principal, Bhavan’s Vidya Mandir, Eroor who gave me an opportunity to present my project.*
+
+- *I also convey my sincere thanks to Smt. Subha Varma, my teacher for providing guidance and support for completing this project.
+
+- *I express my gratitude to my parents, teachers and friends for their constant support  and encouragement.
+
+- *Above all I thank the God Almighty without whose blessings this project would not have been successful.
+
+ ---
+
+## Index
+
+| Sl No | Content |
+|------|------|
+| 1 | PROJECT ABSTRACT |
+| 2 | TABLE STRUCTURE |
+| 3 | SOURCE CODE |
+| 4 | PROGRAM OUTPUT |
+| 5 | BIBLIOGRAPHY |
+
+---
+
 <img align="right" width="170" height="170" src="https://i.imgur.com/oeCaInY.png"> 
 
 > Members:  
