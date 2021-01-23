@@ -2,7 +2,6 @@
 
 import mysql.connector as c
 import csv
-from random import randint as rint
 
 # OUT OF SYLABUSS (～￣▽￣)～
 
@@ -44,19 +43,19 @@ def food():
         print("4. Display Food items ")
         print("5. Search Food Details ")
         print("6. Back")
-        ch = enter_correct("Choose the option: ",1)
-        if ch == 1:
+        choice = enter_correct("Choose the option: ",1)
+        if choice == 1:
             add()
-        elif ch == 2:
+        elif choice == 2:
             x=enter_correct("Fno: ",1)
             delete(x)
-        elif ch == 3:
+        elif choice == 3:
             update()
-        elif ch==4:
+        elif choice ==4:
             display()
-        elif ch == 5:
+        elif choice == 5:
             search(enter_correct("Enter Food No or Food Name: ",1))
-        elif ch == 6:
+        elif choice == 6:
             main()
         else:
             print("\n--------------\nInvalid Option\n--------------")
@@ -99,11 +98,8 @@ def enter_correct(var_msg,var=0):
                 main()
             val = int(val)
         except:
-            if rint(0,10000)==420:
-                print("Mistakes Happen")
-            else:
-                print("\n--------------\nInvalid Option\n--------------\n")
-            enter_correct(var_msg)
+            print("\n--------------\nInvalid Option\n--------------\n")
+
         return val
     else:
         if (val.lower()).strip() == 'quit':
@@ -121,7 +117,7 @@ def enter_correct(var_msg,var=0):
 # Add------------------------------
 
 def add():
-    x=enter_correct("Enter Food ID: ",1)
+    x = enter_correct("Enter Food ID: ",1)
     cur.execute("select fno from food;")
     for i in cur.fetchall():
         if x == i[-1]:
@@ -131,8 +127,9 @@ def add():
 
     y = enter_correct("Enter Food Name: ")
     z = enter_correct("Enter Food Type: ")
-    w=enter_correct("Enter Price: ",1)
+    w = enter_correct("Enter Price: ",1)
     cur.execute("insert into food values({},'{}','{}',{});".format(x, y, z,w))
+    del x,y,z,w
     con.commit()
 
 # ------------------------------
@@ -150,6 +147,7 @@ def delete(fno):
     Press enter to confirm/press b and enter to go back: """.title())
     if waste.upper() == "B":
         food()
+    del waste
     cur.execute("delete from food where fno = {};".format(fno))
     con.commit()
 
@@ -195,6 +193,7 @@ def display():
         print("\n")
         print("---------------------------------------------------------------------------")
     else:
+        del dash, na
         print("That's folks!")
 
 #------------------------------
@@ -232,7 +231,7 @@ def update():
         cur.execute(f"select * from food where fno like {fno};")
         x = cur.fetchall()
     except c.errors as err:
-        print("Errer",print(str(err)))
+        print("Error",print(str(err)))
     if len(x) == 0:
         print("\n")
         print("Invalid Search Query Or List Is Empty.")
@@ -254,6 +253,7 @@ def update():
     ftype = enter_correct("Enter Food Type: ")
     price = enter_correct("Enter Price: ",1)
     cur.execute(f"update food set fno={fno},fname='{fname}',type'{ftype}',price={price});")
+    del x,ch,fname,ftype,price
     con.commit()
 
 #--------------------------------
@@ -277,7 +277,11 @@ def customs(customer_name):
                         res = cur.fetchall()
                     except c.errors:
                         pass
-                    if len(res) == 0:
+                    if len(res) != 0:
+                        print('\n', res[0], '\n')
+                        qun = enter_correct("Enter quantity: ", 1)
+                        the_bill[qun] = res[0]
+                    else:
                         print("\n")
                         print("Invalid Search Query Or List Is Empty.")
                         print("If Not, Try Checking The Food Number")
@@ -285,19 +289,16 @@ def customs(customer_name):
                         print("returning to previous menu\n".title())
                         time.sleep(1)
                         customer()
-                    else:
-                        print('\n',res[0],'\n')
-                        qun=enter_correct("Enter quantity: ",1)
-                        the_bill[qun]=res[0]
         reader=csv.reader(file)
         writer.writerow([len(list(reader))+1,current_time,customer_name,the_bill])
+        del writer,t,current_time,the_bill,res,qun,reader
         print("Success")
         time.sleep(2)
 
 def customs_read():
     with open('customer.csv',newline='',mode='r') as file:
         reader = csv.reader(file)
-        if os.stat('D:\Advaith\Python\Project\customer.csv').st_size > 0:
+        if os.stat('customer.csv').st_size > 0:
             pass
         else:
             print("\n\nempty file".title())
