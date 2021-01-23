@@ -261,12 +261,17 @@ def update():
 # Customer Relations---------------------
 
 def customs(customer_name):
+    with open('customer.csv', newline='', mode='r') as file2:
+        row_count = len(list(csv.reader(file2, delimiter=","))) + 1
+        file2.close()
     with open('customer.csv',newline='',mode='a+') as file:
         writer = csv.writer(file)
         t = time.localtime()
         current_time = time.strftime("%I:%M:%S %p , %d/%m/%Y", t)    # recording the time
         the_bill={}                                                # initialising the bill
-        if enter_correct(f"Proceed Billing Of {customer_name}: ").lower()=='y':
+        if enter_correct(f"Proceed Billing Of {customer_name}: ").lower()!='y':
+            customer()
+        else:
             while True:
                 fno = enter_correct("Enter Food Number: ", 1)
                 if fno == 0:
@@ -280,7 +285,7 @@ def customs(customer_name):
                     if len(res) != 0:
                         print('\n', res[0], '\n')
                         qun = enter_correct("Enter quantity: ", 1)
-                        the_bill[qun] = res[0]
+                        the_bill[res[0][0]] = [qun,res[0][1],res[0][2],res[0][3]]
                     else:
                         print("\n")
                         print("Invalid Search Query Or List Is Empty.")
@@ -289,9 +294,8 @@ def customs(customer_name):
                         print("returning to previous menu\n".title())
                         time.sleep(1)
                         customer()
-        reader=csv.reader(file)
-        writer.writerow([len(list(reader))+1,current_time,customer_name,the_bill])
-        del writer,t,current_time,the_bill,res,qun,reader
+        writer.writerow([row_count,current_time,customer_name,the_bill])
+        del writer,t,current_time,the_bill,res,qun
         print("Success")
         time.sleep(2)
 
