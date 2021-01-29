@@ -301,6 +301,7 @@ def customs(customer_name):
 
 def customs_read():
     with open('customer.csv',newline='',mode='r') as file:
+        sno=input('')
         reader = csv.reader(file)
         if os.stat('customer.csv').st_size > 0:
             pass
@@ -308,8 +309,11 @@ def customs_read():
             print("\n\nempty file".title())
             customer()
         for i in reader:
-            #if i[0]==sno:
-            print(i)
+            if sno==i[0]:
+                print(i[1])
+                print(i[2])
+                z= dict (i[3])
+                print(z)
         print("Success")
         time.sleep(2)
 
