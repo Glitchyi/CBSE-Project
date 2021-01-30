@@ -3,8 +3,7 @@ type Inttiisation.txt
 pause
 type EULA.txt
 set pwd= %CD%
-cd \
+cd %ProgramFiles(x86)%
 echo on
-echo %pwd%
-mysql -u root -p lakochi < %pwd%\commands.sql
+mysql -u root -p lakochi < LaKochi\Restraunt\commands.sql
 pause

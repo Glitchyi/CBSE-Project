@@ -9,7 +9,7 @@ Unicode True
 # show up in a few places.
 # All the other settings can be tweaked by editing the !defines at the top of this script
 !define APPNAME "Restraunt "
-!define COMPANYNAME "La Kochi"
+!define COMPANYNAME "LaKochi"
 !define DESCRIPTION "Restraunt Managment System"
 # These three must be integers
 !define VERSIONMAJOR 0
@@ -17,8 +17,6 @@ Unicode True
 !define VERSIONBUILD 1
 # These will be displayed by the "Click here for support information" link in "Add/Remove Programs"
 # It is possible to use "mailto:" links in here to open the email client
-!define HELPURL "http://..." # "Support Information" link
-!define UPDATEURL "http://..." # "Product Updates" link
 !define ABOUTURL "https://github.com/Glitchyi/CBSE-Project" # "Publisher" link
 # This is the size (in kB) of all the files copied into "Program Files"
 !define INSTALLSIZE 128
@@ -70,12 +68,14 @@ section "install"
 	file Mysql\EULA.txt
 	file Mysql\Inttiisation.txt
 	file Mysql\Mysql.bat
+	file Mysql\file.ico
 	# Uninstaller - See function un.onInit and section "uninstall" for configuration
 	writeUninstaller "$INSTDIR\uninstall.exe"
  
 	# Start Menu
 	createDirectory "$SMPROGRAMS\${COMPANYNAME}"
 	createShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$INSTDIR\init.bat" "" "$INSTDIR\logo.ico"
+	createShortCut "$SMPROGRAMS\${COMPANYNAME}\Mysql.lnk" "$INSTDIR\mysql.bat" "" "$INSTDIR\file.ico" 
  
 	# Registry information for add/remove programs
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" "DisplayName" "${COMPANYNAME} - ${APPNAME} - ${DESCRIPTION}"
@@ -84,8 +84,6 @@ section "install"
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" "InstallLocation" "$\"$INSTDIR$\""
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" "DisplayIcon" "$\"$INSTDIR\logo.ico$\""
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" "Publisher" "${COMPANYNAME}"
-	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" "HelpLink" "$\"${HELPURL}"
-	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" "URLUpdateInfo" "${UPDATEURL}"
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" "URLInfoAbout" " ${ABOUTURL}"
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" "DisplayVersion" " ${VERSIONMAJOR}.${VERSIONMINOR}.${VERSIONBUILD}"
 	WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" "VersionMajor" ${VERSIONMAJOR}
@@ -114,24 +112,27 @@ section "uninstall"
  
 	# Remove Start Menu launcher
 	delete "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk"
+	delete "$SMPROGRAMS\${COMPANYNAME}\Mysql.lnk"
 	# Try to remove the Start Menu folder - this will only happen if it is empty
 	rmDir "$SMPROGRAMS\${COMPANYNAME}"
  
 	# Remove files
 	delete $INSTDIR\init.bat
 	delete $INSTDIR\logo.ico
-	delete init.bat
-	delete customer.csv
-	delete Project.py
-	delete Mysql\commands.sql
-	delete Mysql\EULA.txt
-	delete Mysql\Inttiisation.txt
-	delete Mysql\Mysql.bat
+	delete $INSTDIR\init.bat
+	delete $INSTDIR\customer.csv
+	delete $INSTDIR\Project.py
+	delete $INSTDIR\commands.sql
+	delete $INSTDIR\EULA.txt
+	delete $INSTDIR\Inttiisation.txt
+	delete $INSTDIR\Mysql.bat
+	delete $INSTDIR\file.ico
 	
 	# Always delete uninstaller as the last action
 	delete $INSTDIR\uninstall.exe
  
 	# Try to remove the install directory - this will only happen if it is empty
+	rmDir $INSTDIR\Restraunt
 	rmDir $INSTDIR
  
 	# Remove uninstaller information from the registry
