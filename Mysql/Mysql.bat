@@ -1,8 +1,10 @@
+echo off
 type Inttiisation.txt
 pause
-type EULA.txt  
-echo off              
-cd \ 
-echo on            
-mysql -u root -p < C:\Mysql\commands.sql
+type EULA.txt
+set pwd= %CD%
+cd \
+echo on
+echo %pwd%
+mysql -u root -p lakochi < %pwd%\commands.sql
 pause

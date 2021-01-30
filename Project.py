@@ -312,8 +312,7 @@ def customs_read():
             if sno==i[0]:
                 print(i[1])
                 print(i[2])
-                z= dict (i[3])
-                print(z)
+                print(i[3])
         print("Success")
         time.sleep(2)
 
