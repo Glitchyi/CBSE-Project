@@ -294,11 +294,35 @@ def customs(customer_name):
                         print("returning to previous menu\n".title())
                         time.sleep(1)
                         customer()
+        billprint(the_bill)
         writer.writerow([row_count,current_time,customer_name,the_bill])
         del writer,t,current_time,the_bill,res,qun
         print("Success")
         time.sleep(2)
 
+
+# noinspection PyBroadException
+def billprint(bill):
+    global names
+    cur.execute("select fname from food;")
+    try:
+        names=cur.fetchall()
+    except:
+        print("nothing")
+        customer()
+    x = 0
+    for i in names:
+        for j in i:
+            print(j)
+            if len(j) > x:
+                x = len(j)
+    print(x)
+    print(x*'-'+"LA KOCHI"+x*'-')
+    print("| Slno      Food name"+" "*16+"Qty\tPrice")
+    for i in bill.keys():
+        cur.execute(f"select price from food where fname=\"{ bill[i][1] }\";")
+        price = cur.fetchall()[0][0]
+        print(f"| {i}"+" "*(7-len(str(i))) , bill[i][1]+" "*(x-len(bill[i][1])) , bill[i][0] , "\t" , price,end="|\n")
 def customs_read():
     with open('customer.csv',newline='',mode='r') as file:
         sno=input('')
