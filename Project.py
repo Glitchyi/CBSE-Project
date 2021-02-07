@@ -313,19 +313,98 @@ def billprint(bill):
     x = 0
     for i in names:
         for j in i:
-            print(j)
             if len(j) > x:
                 x = len(j)
-    print(x)
-    print(x*'-'+"LA KOCHI"+x*'-')
-    print("| Slno      Food name"+" "*16+"Qty\tPrice")
+
+    print('-' * (x+40))
+    print('|' + "LA KOCHI".center(x+38) + '|')
+    print('-' * (x + 40))
+    print("| Slno    Food name" + " "*(x-7) + "Qty    Unit Price    Price |")
+
+    l=[]
+
     for i in bill.keys():
         cur.execute(f"select price from food where fname=\"{ bill[i][1] }\";")
-        price = cur.fetchall()[0][0]
-        print(f"| {i}"+" "*(7-len(str(i))) , bill[i][1]+" "*(x-len(bill[i][1])) , bill[i][0] , "\t" , price,end="|\n")
+
+        Food_Name=str(bill[i][1])+" "*(x+1-len(bill[i][1]))
+
+        Unit_Price = cur.fetchall()[0][0]
+
+        Final_Price= Unit_Price*(bill[i][0])
+        l.append(Final_Price)
+
+        Unit_Price = str(Unit_Price) + " "*(13-len(str(Unit_Price)))
+
+        Final_Price= str(Final_Price) + " "*(6-len(str(Final_Price)))
+
+        Quantity=str(bill[i][0])+" "*(6-len(str(bill[i][0])))
+
+        print(f"| {i}"+" "*(7-len(str(i))) , Food_Name , Quantity,Unit_Price,Final_Price,end="|\n")
+
+    TOTAL=0
+
+    for j in l:
+        TOTAL+=j
+
+    print('-' * (x + 40))
+
+    print("| TOTAL" + " " * (x + 30 - len(str(TOTAL) )) + f"{TOTAL}  |")
+
+    print('-' * (x + 40))
+    print("| HOPE YOU HAVE A WONDERFUL DAY AHEAD (*^▽^*)"+" "* (x - 6)+'|')
+    print('-' * (x + 40))
+
+    # Mail------------------------------------------
+
+    ask=enter_correct("\nDo you Want the bill to be mailed to you?: ")
+
+
+    if (ask.upper()).strip()=='Y':
+
+        Body=str('-' * (x + 40))+'\n'
+        Body+=str('|' + "LA KOCHI".center(x + 38) + '|')+'\n'
+        Body+=str('-' * (x + 40))+'\n'
+        Body+=str("| Slno    Food name" + " " * (x - 7) + "Qty    Unit Price    Price |")+'\n'
+
+        l = []
+
+        for i in bill.keys():
+            cur.execute(f"select price from food where fname=\"{bill[i][1]}\";")
+
+            Food_Name = str(bill[i][1]) + " " * (x + 1 - len(bill[i][1]))
+
+            Unit_Price = cur.fetchall()[0][0]
+
+            Final_Price = Unit_Price * (bill[i][0])
+            l.append(Final_Price)
+
+            Unit_Price = str(Unit_Price) + " " * (13 - len(str(Unit_Price)))
+
+            Final_Price = str(Final_Price) + " " * (6 - len(str(Final_Price)))
+
+            Quantity = str(bill[i][0]) + " " * (6 - len(str(bill[i][0])))
+
+            Body+= f"| {i}{' ' * (7 - len(str(i)))} {Food_Name} {Quantity} {Unit_Price} {Final_Price}|\n"
+
+        TOTAL = 0
+
+        for j in l:
+            TOTAL += j
+
+        Body+=('-' * (x + 40))+'\n'
+
+        Body+=("| TOTAL" + " " * (x + 30 - len(str(TOTAL))) + f"{TOTAL}  |")+'\n'
+
+        Body+=('-' * (x + 40))+'\n'
+        Body+=("| HOPE YOU HAVE A WONDERFUL DAY AHEAD (*^v^*)" + " " * (x - 6) + '|')+'\n'
+        Body+=('-' * (x + 40))+'\n'
+        mailid=enter_correct("Please Enter Your Email ID: ")
+        mail(mailid,Body)
+
+#-----------------------------------------
+
 def customs_read():
     with open('customer.csv',newline='',mode='r') as file:
-        sno=input('')
         reader = csv.reader(file)
         if os.stat('customer.csv').st_size > 0:
             pass
@@ -333,10 +412,9 @@ def customs_read():
             print("\n\nempty file".title())
             customer()
         for i in reader:
-            if sno==i[0]:
-                print(i[1])
-                print(i[2])
-                print(i[3])
+            print(i[1])
+            print(i[2])
+            print(i[3])
         print("Success")
         time.sleep(2)
 
@@ -356,10 +434,10 @@ def mail(email_id,bill):
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
     sender_email = "thelakochi@gmail.com"  # Enter your address
-    receiver_email = f"{email_id}"  # Enter receiver address
+    receiver_email = str(email_id)  # Enter receiver address
     password = "thelakochi"
     message = f"""\
-    Subject: Bill Recipt From The La Kochi Hotel ^_^
+    Bill Recipt From The La Kochi Hotel ^_^
 
     {bill}"""
     context = ssl.create_default_context()
