@@ -31,7 +31,7 @@ def main():                                                                 # Th
             exit("Succesfully exited program")
 
 #---------------------------------
-def food():
+def food():                                                                            # Function deals with all functions that alter the table food and its contents
     while True:
         print("\n")
         print("FOOD")
