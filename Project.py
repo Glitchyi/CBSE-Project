@@ -12,7 +12,7 @@ import time
 # Functions--------------------
 
 # noinspection PyBroadException
-def main():
+def main():                                                                 # This is the main function  and is where the program starts from.
     print ("Choose Category".upper())
     print("---------------")
     print("1. FOOD")
@@ -259,6 +259,9 @@ def update():
 #--------------------------------
 
 # Customer Relations---------------------
+"""
+These Pro
+"""
 
 def customs(customer_name):
     with open('customer.csv', newline='', mode='r') as file2:
