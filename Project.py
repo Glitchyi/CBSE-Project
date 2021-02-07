@@ -12,7 +12,7 @@ import time
 # Functions--------------------
 
 # noinspection PyBroadException
-def main():
+def main():                                                                 # This is the main function  and is where the program starts from.
     print ("Choose Category".upper())
     print("---------------")
     print("1. FOOD")
