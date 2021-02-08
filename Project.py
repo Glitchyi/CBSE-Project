@@ -58,6 +58,7 @@ def food():                                                                  # F
         elif choice == 6:
             main()
         else:
+            del choice
             print("\n--------------\nInvalid Option\n--------------")
 
 #---------------------------------
@@ -79,12 +80,14 @@ def customer():                                                               # 
             customs_read()
         elif ch==3:
             main()
+        else:
+            del ch
+            print("\n--------------\nInvalid Option\n--------------")
 
 #----------------------------
 
 # Patent Pending ヾ(≧▽≦*)o-------------------
 
-# noinspection PyBroadException
 
 def enter_correct(var_msg,var=0):                                             # This function prevents the program from crashing
     val = input(var_msg)                                                      # with any errors that occur in the program it solves 
@@ -99,7 +102,7 @@ def enter_correct(var_msg,var=0):                                             # 
                 time.sleep(1)
                 main()
             val = int(val)
-        except:
+        except c.errors:
             print("\n--------------\nInvalid Option\n--------------\n")
 
         return val
@@ -119,7 +122,7 @@ def enter_correct(var_msg,var=0):                                             # 
 # Add------------------------------
 
 def add():                                                                    # This function helps us add a new food item to the 
-(    x = enter_correct("Enter Food ID: ",1)                                   # table, it checks the wether a simmilar entry exists or
+    x = enter_correct("Enter Food ID: ",1)                                    # table, it checks the wether a simmilar entry exists or
     cur.execute("select fno from food;")                                      # not,and if not gives us an option to add it to the 
     for i in cur.fetchall():                                                  # food menu.
         if x == i[-1]:
@@ -133,6 +136,8 @@ def add():                                                                    # 
     cur.execute("insert into food values({},'{}','{}',{});".format(x, y, z,w))
     del x,y,z,w
     con.commit()
+    print("Success")
+    time.sleep(2)
 
 # ------------------------------
 
@@ -152,6 +157,8 @@ def delete(fno):                                                              # 
     del waste
     cur.execute("delete from food where fno = {};".format(fno))
     con.commit()
+    print("Success")
+    time.sleep(2)
  
 #-----------------------------
  
@@ -198,11 +205,14 @@ def display():                                                                # 
         del dash, na
         print("That's folks!")
 
+    print("Success")
+    time.sleep(2)
+
 #------------------------------
 
 # Search ---------------------------
  
- def search(f_info):
+def search(f_info):
     cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))     
     if len(cur.fetchall())==0:                                                   # This function helps to search for a specific food 
         print("\n")                                                              # item and if it doesn't exist,
@@ -220,7 +230,8 @@ def display():                                                                # 
                 print(j, end=" ")
             print("\n")
     con.commit()
-    food()
+    print("Success")
+    time.sleep(2)
 
 #------------------------------
 
@@ -232,8 +243,8 @@ def update():                                                                 # 
     try:
         cur.execute(f"select * from food where fno like {fno};")
         x = cur.fetchall()
-    except c.errors as err:
-        print("Error",print(str(err)))
+    except c.errors:
+        pass
     if len(x) == 0:
         print("\n")
         print("Invalid Search Query Or List Is Empty.")
@@ -255,8 +266,10 @@ def update():                                                                 # 
     ftype = enter_correct("Enter Food Type: ")
     price = enter_correct("Enter Price: ",1)
     cur.execute(f"update food set fno={fno},fname='{fname}',type'{ftype}',price={price});")
-    del x,ch,fname,ftype,price
+    del fno,x,ch,fname,ftype,price
     con.commit()
+    print("Success")
+    time.sleep(2)
 
 #--------------------------------
 
@@ -299,7 +312,7 @@ def customs(customer_name):                                                   # 
                         customer()
         billprint(the_bill)
         writer.writerow([row_count,current_time,customer_name,the_bill])
-        del writer,t,current_time,the_bill,res,qun
+        del row_count,writer,t,current_time,the_bill,fno,res,qun
         print("Success")
         time.sleep(2)
 
@@ -312,7 +325,7 @@ def billprint(bill):                                                          # 
     cur.execute("select fname from food;")
     try:
         names=cur.fetchall()
-    except:
+    except c.errors:
         print("nothing")
         customer()
     x = 0
@@ -322,42 +335,33 @@ def billprint(bill):                                                          # 
                 x = len(j)
 
     Body=str('-' * (x + 40))+'\n'
-        Body+=str('|' + "LA KOCHI".center(x + 38) + '|')+'\n'
-        Body+=str('-' * (x + 40))+'\n'
-        Body+=str("| Slno    Food name" + " " * (x - 7) + "Qty    Unit Price    Price |")+'\n'
+    Body+=str('|' + "LA KOCHI".center(x + 38) + '|')+'\n'
+    Body+=str('-' * (x + 40))+'\n'
+    Body+=str("| Slno    Food name" + " " * (x - 7) + "Qty    Unit Price    Price |")+'\n'
 
-        l = []
+    l = []
 
-        for i in bill.keys():
-            cur.execute(f"select price from food where fname=\"{bill[i][1]}\";")
+    for i in bill.keys():
+        cur.execute(f"select price from food where fname=\"{bill[i][1]}\";")
+        Food_Name = str(bill[i][1]) + " " * (x + 1 - len(bill[i][1]))
+        Unit_Price = cur.fetchall()[0][0]
+        Final_Price = Unit_Price * (bill[i][0])
+        l.append(Final_Price)
+        Unit_Price = str(Unit_Price) + " " * (13 - len(str(Unit_Price)))
+        Final_Price = str(Final_Price) + " " * (6 - len(str(Final_Price)))
+        Quantity = str(bill[i][0]) + " " * (6 - len(str(bill[i][0])))
+        Body+= f"| {i}{' ' * (7 - len(str(i)))} {Food_Name} {Quantity} {Unit_Price} {Final_Price}|\n"
 
-            Food_Name = str(bill[i][1]) + " " * (x + 1 - len(bill[i][1]))
+    TOTAL = 0
 
-            Unit_Price = cur.fetchall()[0][0]
+    for j in l:
+        TOTAL += j
 
-            Final_Price = Unit_Price * (bill[i][0])
-            l.append(Final_Price)
-
-            Unit_Price = str(Unit_Price) + " " * (13 - len(str(Unit_Price)))
-
-            Final_Price = str(Final_Price) + " " * (6 - len(str(Final_Price)))
-
-            Quantity = str(bill[i][0]) + " " * (6 - len(str(bill[i][0])))
-
-            Body+= f"| {i}{' ' * (7 - len(str(i)))} {Food_Name} {Quantity} {Unit_Price} {Final_Price}|\n"
-
-        TOTAL = 0
-
-        for j in l:
-            TOTAL += j
-
-        Body+=('-' * (x + 40))+'\n'
-
-        Body+=("| TOTAL" + " " * (x + 30 - len(str(TOTAL))) + f"{TOTAL}  |")+'\n'
-
-        Body+=('-' * (x + 40))+'\n'
-        Body+=("| HOPE YOU HAVE A WONDERFUL DAY AHEAD (*^v^*)" + " " * (x - 6) + '|')+'\n'
-        Body+=('-' * (x + 40))+'\n'
+    Body+=('-' * (x + 40))+'\n'
+    Body+=("| TOTAL" + " " * (x + 30 - len(str(TOTAL))) + f"{TOTAL}  |")+'\n'
+    Body+=('-' * (x + 40))+'\n'
+    Body+=("| HOPE YOU HAVE A WONDERFUL DAY AHEAD (*^v^*)" + " " * (x - 6) + '|')+'\n'
+    Body+=('-' * (x + 40))+'\n'
  
     print(Body)
 
@@ -365,10 +369,13 @@ def billprint(bill):                                                          # 
 
     ask=enter_correct("\nDo you Want the bill to be mailed to you?: ")
 
-
     if (ask.upper()).strip()=='Y':
         mailid=enter_correct("Please Enter Your Email ID: ")
         mail(mailid,Body)
+
+    del names,x,Body,Food_Name,Unit_Price,Final_Price,Quantity,TOTAL,ask
+    print("Success")
+    time.sleep(2)
  
 #----------------------------- 
 
@@ -386,8 +393,9 @@ def customs_read():                                                           # 
             print(i[1])
             print(i[2])
             print(i[3])
-        print("Success")
-        time.sleep(2)
+    del reader
+    print("Success")
+    time.sleep(2)
 
 
 #-----------------------------
@@ -415,6 +423,7 @@ def mail(email_id,bill):                                                      # 
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
+    del port,smtp_server,sender_email,receiver_email,password,message,context
 
 #-----------------------------
 
