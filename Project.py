@@ -1,4 +1,4 @@
-# imports---------------------
+# imports--------------------- 
 
 import mysql.connector as c
 import csv
@@ -10,8 +10,7 @@ import os
 import time
 
 # Functions--------------------
-
-# noinspection PyBroadException
+ 
 def main():                                                                 # This is the main function  and is where the program starts from.
     print ("Choose Category".upper())
     print("---------------")                                                # The main categories
@@ -30,7 +29,8 @@ def main():                                                                 # Th
         if (dump.upper()).strip()=='Y':
             exit("Succesfully exited program")
 
-#---------------------------------
+# Food -----------------------------
+
 def food():                                                                  # Function deals with all functions that alter the table food and its contents
     while True:
         print("\n")
@@ -62,7 +62,9 @@ def food():                                                                  # F
 
 #---------------------------------
 
-def customer():                                                                         # Function deals with all things related to the customer and the billing of his order.
+# Customer -----------------------
+
+def customer():                                                               # Function deals with all things related to the customer and the billing of his order.
     while True:     
         print("\n")
         print("CUSTOMER")
@@ -84,9 +86,9 @@ def customer():                                                                 
 
 # noinspection PyBroadException
 
-def enter_correct(var_msg,var=0):                                                       # This function prevents the program from crashing with any errors that occur in the program it solves them,
-    val = input(var_msg)                                                                # or returns to the main program.
-    if var==1:                                                                          # This is also a failsafe to abort the current action and return to the main program
+def enter_correct(var_msg,var=0):                                             # This function prevents the program from crashing with any errors that occur in the program it solves them,
+    val = input(var_msg)                                                      # or returns to the main program.
+    if var==1:                                                                # This is also a failsafe to abort the current action and return to the main program
         try:
             if (val.lower()).strip() == 'quit':
                 print("\n------------------------")
@@ -116,8 +118,8 @@ def enter_correct(var_msg,var=0):                                               
 
 # Add------------------------------
 
-def add():                                                                  # This function helps us add a new food item to the table, it checks the wether a simmilar entry exists or not, 
-(    x = enter_correct("Enter Food ID: ",1)                                 # and if not gives us an option to add it to the food menu.
+def add():                                                                    # This function helps us add a new food item to the table, it checks the wether a simmilar entry exists or not, 
+(    x = enter_correct("Enter Food ID: ",1)                                   # and if not gives us an option to add it to the food menu.
     cur.execute("select fno from food;")
     for i in cur.fetchall():
         if x == i[-1]:
@@ -136,7 +138,7 @@ def add():                                                                  # Th
 
 # Delete -----------------------------
 
-def delete(fno):                                                            # This function deals with the deletion of a food record from the menu.
+def delete(fno):                                                              # This function deals with the deletion of a food record from the menu.
     cur.execute(f"select * from food where fno = {fno};")
 
     for i in cur.fetchall():
@@ -150,10 +152,12 @@ def delete(fno):                                                            # Th
     del waste
     cur.execute("delete from food where fno = {};".format(fno))
     con.commit()
+ 
+#-----------------------------
+ 
+# Display ------------------------------
 
-# ------------------------------
-
-def display():                                                              # Displays the entire menu of hotel.
+def display():                                                                # Displays the entire menu of restaurant.
     print("\n")
     dash = 0
     cur.execute("select * from food")
@@ -196,6 +200,7 @@ def display():                                                              # Di
 
 #------------------------------
 
+# Search ---------------------------
  
  def search(f_info):
     cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))     # This function helps to search for a specific food item and if it doesn't exist,
@@ -221,7 +226,7 @@ def display():                                                              # Di
 
 # Update------------------------------
 
-def update():                                                           # Update function helps with the updation of a food item in the menu.
+def update():                                                                 # Update function helps with the updation of a food item in the menu.
     fno = enter_correct("Enter Food ID: ",1)
     x=0
     try:
@@ -255,18 +260,18 @@ def update():                                                           # Update
 
 #--------------------------------
 
-# Customer Relations---------------------
+# Customer Relations --------------------
  
  
-def customs(customer_name):                                                 #This function deals with the customer details includind the time of checkout
-    with open('customer.csv', newline='', mode='r') as file2:
-        row_count = len(list(csv.reader(file2, delimiter=","))) + 1
+def customs(customer_name):                                                   # This function deals with creating a log of customer details, order info, the time and date of the transaction
+    with open('customer.csv', newline='', mode='r') as file2:                 # This log is kept as a simplified copy of the bill, ussualy for the restraunt owner. 
+        row_count = len(list(csv.reader(file2, delimiter=","))) + 1           # This log file is a csv file, that can be easily indexed and analysed by restraunt owner. 
         file2.close()
     with open('customer.csv',newline='',mode='a+') as file:
         writer = csv.writer(file)
         t = time.localtime()
-        current_time = time.strftime("%I:%M:%S %p , %d/%m/%Y", t)    # recording the time
-        the_bill={}                                                # initialising the bill
+        current_time = time.strftime("%I:%M:%S %p , %d/%m/%Y", t)             # recording the time
+        the_bill={}                                                           # initialising the bill
         if enter_correct(f"Proceed Billing Of {customer_name}: ").lower()!='y':
             customer()
         else:
@@ -298,9 +303,11 @@ def customs(customer_name):                                                 #Thi
         print("Success")
         time.sleep(2)
 
-
-# noinspection PyBroadException
-def billprint(bill):                                                                #This function is used to print the bill according to the above done entries in a structural manner
+#-----------------------------  
+ 
+# Printing Of The Bill ---------------------------- 
+  
+def billprint(bill):                                                          # This function is used to print the bill according to the above done entries in a structural manner
     global names
     cur.execute("select fname from food;")
     try:
@@ -352,7 +359,7 @@ def billprint(bill):                                                            
     print("| HOPE YOU HAVE A WONDERFUL DAY AHEAD (*^▽^*)"+" "* (x - 6)+'|')
     print('-' * (x + 40))
 
-    # Mail------------------------------------------
+    # Mail -----------------------------------------
 
     ask=enter_correct("\nDo you Want the bill to be mailed to you?: ")
 
@@ -398,10 +405,12 @@ def billprint(bill):                                                            
         Body+=('-' * (x + 40))+'\n'
         mailid=enter_correct("Please Enter Your Email ID: ")
         mail(mailid,Body)
+ 
+#----------------------------- 
 
-#-----------------------------------------
+# Customer Info Logging -------------------------
 
-def customs_read():                                                         #Function helps to save the bill as ac csv file  to the hard disk of the computer
+def customs_read():                                                           # Function helps to read the bill log on the hard disk of the computer. (customer.csv)
     with open('customer.csv',newline='',mode='r') as file:
         reader = csv.reader(file)
         if os.stat('customer.csv').st_size > 0:
@@ -426,9 +435,9 @@ cur = con.cursor()
 
 #-----------------------------
 
-# Bills-----------------------
+# Mailing Of Bills -----------------------
 
-def mail(email_id,bill):                                                #This function will sent the bill to the intended recipient's email id
+def mail(email_id,bill):                                                      # This function will sent the bill to the intended recipient's email id, if requested 
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
     sender_email = "thelakochi@gmail.com"  # Enter your address
@@ -446,7 +455,7 @@ def mail(email_id,bill):                                                #This fu
 #-----------------------------
 
 # This is the introduction part of the program
-#all below include the part of the design
+# All below include the part of the design
 
 print("""
 
