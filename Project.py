@@ -14,7 +14,7 @@ import time
 # noinspection PyBroadException
 def main():                                                                 # This is the main function  and is where the program starts from.
     print ("Choose Category".upper())
-    print("---------------")                                                #main categories
+    print("---------------")                                                # The main categories
     print("1. FOOD")
     print("2. CUSTOMER")
     print("3. BILLING")
@@ -62,7 +62,7 @@ def food():                                                                  # F
 
 #---------------------------------
 
-def customer():                                                                         #Function deals with all functions to add and view the customer details
+def customer():                                                                         # Function deals with all functions to add and view the customer details
     while True:     
         print("\n")
         print("CUSTOMER")
@@ -84,9 +84,9 @@ def customer():                                                                 
 
 # noinspection PyBroadException
 
-def enter_correct(var_msg,var=0):                                                       #This function deals with any errors that occur in the program, solves them
-    val = input(var_msg)                                                                 # and returns to the main program
-    if var==1:
+def enter_correct(var_msg,var=0):                                                       # This function prevents the program from crashing with any errors that occur in the program it solves them,
+    val = input(var_msg)                                                                # or returns to the main program.
+    if var==1:                                                                          # This is also a failsafe to abort the current action and return to the main program
         try:
             if (val.lower()).strip() == 'quit':
                 print("\n------------------------")
