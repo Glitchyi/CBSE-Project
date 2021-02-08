@@ -84,7 +84,7 @@ def customer():                                                                 
 
 # noinspection PyBroadException
 
-def enter_correct(var_msg,var=0):                                                       #this function deals with any errors that occur in the program, solves them
+def enter_correct(var_msg,var=0):                                                       #This function deals with any errors that occur in the program, solves them
     val = input(var_msg)                                                                 # and returns to the main program
     if var==1:
         try:
@@ -116,7 +116,7 @@ def enter_correct(var_msg,var=0):                                               
 
 # Add------------------------------
 
-def add():                                                                  #this function helps us to serch for a food item, check its status(wether it exists or not), 
+def add():                                                                  #This function helps us to serch for a food item, check its status(wether it exists or not), 
 (    x = enter_correct("Enter Food ID: ",1)                                 #and if not gives us an option to add to the food menu
     cur.execute("select fno from food;")
     for i in cur.fetchall():
@@ -136,7 +136,7 @@ def add():                                                                  #thi
 
 # Delete -----------------------------
 
-def delete(fno):                                                            #this function deals with the removal of a food from the menu .
+def delete(fno):                                                            #This function deals with the removal of a food from the menu .
     cur.execute(f"select * from food where fno = {fno};")
 
     for i in cur.fetchall():
@@ -153,7 +153,7 @@ def delete(fno):                                                            #thi
 
 # ------------------------------
 
-# Displays the current bill status
+# Displays the menu of hotel
 
 def display():
     print("\n")
@@ -200,7 +200,7 @@ def display():
 
  
  def search(f_info):
-    cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))     #this function helps to serch for a food item and if it doesn't exists,
+    cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))     #This function helps to serch for a food item and if it doesn't exists,
     if len(cur.fetchall())==0:                                                                              #returns to the previous menu
         print("\n")
         print("Invalid Search Query Or List Is Empty.")
@@ -223,7 +223,7 @@ def display():
 
 # Update------------------------------
 
-def update():                                                           #update function deals with the updation part of a food item in the menu
+def update():                                                           #Update function deals with the updation part of a food item in the menu
     fno = enter_correct("Enter Food ID: ",1)
     x=0
     try:
@@ -262,7 +262,7 @@ def update():                                                           #update 
 These Pro
 """
 
-def customs(customer_name):                                                 #this function deals with the customer details includind the time of checkout
+def customs(customer_name):                                                 #This function deals with the customer details includind the time of checkout
     with open('customer.csv', newline='', mode='r') as file2:
         row_count = len(list(csv.reader(file2, delimiter=","))) + 1
         file2.close()
@@ -304,7 +304,7 @@ def customs(customer_name):                                                 #thi
 
 
 # noinspection PyBroadException
-def billprint(bill):                                                                #this function is used to print the bill according to the above done entries in a structural manner
+def billprint(bill):                                                                #This function is used to print the bill according to the above done entries in a structural manner
     global names
     cur.execute("select fname from food;")
     try:
@@ -405,7 +405,7 @@ def billprint(bill):                                                            
 
 #-----------------------------------------
 
-def customs_read():                                                         #function helps to save the bill as ac csv file  to the hard disk of the computer
+def customs_read():                                                         #Function helps to save the bill as ac csv file  to the hard disk of the computer
     with open('customer.csv',newline='',mode='r') as file:
         reader = csv.reader(file)
         if os.stat('customer.csv').st_size > 0:
@@ -432,7 +432,7 @@ cur = con.cursor()
 
 # Bills-----------------------
 
-def mail(email_id,bill):                                                #this function will sent the bill to the intended recipient's email id
+def mail(email_id,bill):                                                #This function will sent the bill to the intended recipient's email id
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
     sender_email = "thelakochi@gmail.com"  # Enter your address
@@ -449,7 +449,7 @@ def mail(email_id,bill):                                                #this fu
 
 #-----------------------------
 
-# this is the introduction part of the program
+# This is the introduction part of the program
 #all below include the part of the design
 
 print("""
