@@ -11,10 +11,10 @@ import time
 
 # Functions--------------------
  
-def main():                                                                 # This is the main function and is where the.......................
-    print ("Choose Category".upper())                                       # program starts from.
-    print("---------------")                                                # The main categories
-    print("1. FOOD")
+def main():                                                                 # This is the main function and is where the program 
+    print ("Choose Category".upper())                                       # starts from.
+    print("---------------")                                                # The main categories                                  
+    print("1. FOOD")                                                        
     print("2. CUSTOMER")
     print("3. BILLING")
     print("4. EXIT")
@@ -31,8 +31,8 @@ def main():                                                                 # Th
 
 # Food -----------------------------
 
-def food():                                                                  # Function deals with all functions that alter the table food and its contents
-    while True:
+def food():                                                                  # Function deals with all functions that alter the 
+    while True:                                                              # table food and its contents
         print("\n")
         print("FOOD")
         print("---------")
@@ -64,8 +64,8 @@ def food():                                                                  # F
 
 # Customer -----------------------
 
-def customer():                                                               # Function deals with all things related to the customer and the billing of his order.
-    while True:     
+def customer():                                                               # Function deals with all things related to the customer
+    while True:                                                               # and the billing of his order.
         print("\n")
         print("CUSTOMER")
         print("---------")
@@ -86,11 +86,11 @@ def customer():                                                               # 
 
 # noinspection PyBroadException
 
-def enter_correct(var_msg,var=0):                                             # This function prevents the program from crashing with any errors that occur in the program it solves them,
-    val = input(var_msg)                                                      # or returns to the main program.
-    if var==1:                                                                # This is also a failsafe to abort the current action and return to the main program
-        try:
-            if (val.lower()).strip() == 'quit':
+def enter_correct(var_msg,var=0):                                             # This function prevents the program from crashing
+    val = input(var_msg)                                                      # with any errors that occur in the program it solves 
+    if var==1:                                                                # them, or returns to the main program. 
+        try:                                                                  # This is also a failsafe to abort the current action
+            if (val.lower()).strip() == 'quit':                               # and return to the main program.
                 print("\n------------------------")
                 print("Aborting Current Process")
                 time.sleep(1)
@@ -118,10 +118,10 @@ def enter_correct(var_msg,var=0):                                             # 
 
 # Add------------------------------
 
-def add():                                                                    # This function helps us add a new food item to the table, it checks the wether a simmilar entry exists or not, 
-(    x = enter_correct("Enter Food ID: ",1)                                   # and if not gives us an option to add it to the food menu.
-    cur.execute("select fno from food;")
-    for i in cur.fetchall():
+def add():                                                                    # This function helps us add a new food item to the 
+(    x = enter_correct("Enter Food ID: ",1)                                   # table, it checks the wether a simmilar entry exists or
+    cur.execute("select fno from food;")                                      # not,and if not gives us an option to add it to the 
+    for i in cur.fetchall():                                                  # food menu.
         if x == i[-1]:
             print("\nThis ID Already Exists\n")
             time.sleep(3)
