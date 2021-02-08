@@ -62,7 +62,7 @@ def food():                                                                  # F
 
 #---------------------------------
 
-def customer():                                                                         # Function deals with all functions to add and view the customer details
+def customer():                                                                         # Function deals with all things related to the customer and the billing of his order.
     while True:     
         print("\n")
         print("CUSTOMER")
@@ -116,8 +116,8 @@ def enter_correct(var_msg,var=0):                                               
 
 # Add------------------------------
 
-def add():                                                                  #This function helps us to serch for a food item, check its status(wether it exists or not), 
-(    x = enter_correct("Enter Food ID: ",1)                                 #and if not gives us an option to add to the food menu
+def add():                                                                  # This function helps us add a new food item to the table, it checks the wether a simmilar entry exists or not, 
+(    x = enter_correct("Enter Food ID: ",1)                                 # and if not gives us an option to add it to the food menu.
     cur.execute("select fno from food;")
     for i in cur.fetchall():
         if x == i[-1]:
@@ -136,7 +136,7 @@ def add():                                                                  #Thi
 
 # Delete -----------------------------
 
-def delete(fno):                                                            #This function deals with the removal of a food from the menu .
+def delete(fno):                                                            # This function deals with the deletion of a food record from the menu.
     cur.execute(f"select * from food where fno = {fno};")
 
     for i in cur.fetchall():
@@ -153,9 +153,7 @@ def delete(fno):                                                            #Thi
 
 # ------------------------------
 
-# Displays the menu of hotel
-
-def display():
+def display():                                                              # Displays the entire menu of hotel.
     print("\n")
     dash = 0
     cur.execute("select * from food")
@@ -200,8 +198,8 @@ def display():
 
  
  def search(f_info):
-    cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))     #This function helps to serch for a food item and if it doesn't exists,
-    if len(cur.fetchall())==0:                                                                              #returns to the previous menu
+    cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))     # This function helps to search for a specific food item and if it doesn't exist,
+    if len(cur.fetchall())==0:                                                                              # it informs the user and returns to the previous menu.
         print("\n")
         print("Invalid Search Query Or List Is Empty.")
         print("If Not, Try Checking The Spelling Or The Food Number")
@@ -223,7 +221,7 @@ def display():
 
 # Update------------------------------
 
-def update():                                                           #Update function deals with the updation part of a food item in the menu
+def update():                                                           # Update function helps with the updation of a food item in the menu.
     fno = enter_correct("Enter Food ID: ",1)
     x=0
     try:
@@ -258,10 +256,8 @@ def update():                                                           #Update 
 #--------------------------------
 
 # Customer Relations---------------------
-"""
-These Pro
-"""
-
+ 
+ 
 def customs(customer_name):                                                 #This function deals with the customer details includind the time of checkout
     with open('customer.csv', newline='', mode='r') as file2:
         row_count = len(list(csv.reader(file2, delimiter=","))) + 1
