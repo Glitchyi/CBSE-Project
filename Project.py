@@ -321,52 +321,7 @@ def billprint(bill):                                                          # 
             if len(j) > x:
                 x = len(j)
 
-    print('-' * (x+40))
-    print('|' + "LA KOCHI".center(x+38) + '|')
-    print('-' * (x + 40))
-    print("| Slno    Food name" + " "*(x-7) + "Qty    Unit Price    Price |")
-
-    l=[]
-
-    for i in bill.keys():
-        cur.execute(f"select price from food where fname=\"{ bill[i][1] }\";")
-
-        Food_Name=str(bill[i][1])+" "*(x+1-len(bill[i][1]))
-
-        Unit_Price = cur.fetchall()[0][0]
-
-        Final_Price= Unit_Price*(bill[i][0])
-        l.append(Final_Price)
-
-        Unit_Price = str(Unit_Price) + " "*(13-len(str(Unit_Price)))
-
-        Final_Price= str(Final_Price) + " "*(6-len(str(Final_Price)))
-
-        Quantity=str(bill[i][0])+" "*(6-len(str(bill[i][0])))
-
-        print(f"| {i}"+" "*(7-len(str(i))) , Food_Name , Quantity,Unit_Price,Final_Price,end="|\n")
-
-    TOTAL=0
-
-    for j in l:
-        TOTAL+=j
-
-    print('-' * (x + 40))
-
-    print("| TOTAL" + " " * (x + 30 - len(str(TOTAL) )) + f"{TOTAL}  |")
-
-    print('-' * (x + 40))
-    print("| HOPE YOU HAVE A WONDERFUL DAY AHEAD (*^▽^*)"+" "* (x - 6)+'|')
-    print('-' * (x + 40))
-
-    # Mail -----------------------------------------
-
-    ask=enter_correct("\nDo you Want the bill to be mailed to you?: ")
-
-
-    if (ask.upper()).strip()=='Y':
-
-        Body=str('-' * (x + 40))+'\n'
+    Body=str('-' * (x + 40))+'\n'
         Body+=str('|' + "LA KOCHI".center(x + 38) + '|')+'\n'
         Body+=str('-' * (x + 40))+'\n'
         Body+=str("| Slno    Food name" + " " * (x - 7) + "Qty    Unit Price    Price |")+'\n'
@@ -403,6 +358,15 @@ def billprint(bill):                                                          # 
         Body+=('-' * (x + 40))+'\n'
         Body+=("| HOPE YOU HAVE A WONDERFUL DAY AHEAD (*^v^*)" + " " * (x - 6) + '|')+'\n'
         Body+=('-' * (x + 40))+'\n'
+ 
+    print(Body)
+
+    # Mail -----------------------------------------
+
+    ask=enter_correct("\nDo you Want the bill to be mailed to you?: ")
+
+
+    if (ask.upper()).strip()=='Y':
         mailid=enter_correct("Please Enter Your Email ID: ")
         mail(mailid,Body)
  
