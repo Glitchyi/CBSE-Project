@@ -16,8 +16,7 @@ def main():                                                                 # Th
     print("---------------")                                                # The main categories                                  
     print("1. FOOD")                                                        
     print("2. CUSTOMER")
-    print("3. BILLING")
-    print("4. EXIT")
+    print("3. EXIT")
     choice = enter_correct("Enter The Option: ",1)
     if choice==1:
         food()
@@ -102,7 +101,7 @@ def enter_correct(var_msg,var=0):                                             # 
                 time.sleep(1)
                 main()
             val = int(val)
-        except :
+        except c.errors:
             print("\n--------------\nInvalid Option\n--------------\n")
 
         return val
