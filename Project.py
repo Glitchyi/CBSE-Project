@@ -264,7 +264,7 @@ def update():                                                                 # 
     fname = enter_correct("Enter Food Name: ")
     ftype = enter_correct("Enter Food Type: ")
     price = enter_correct("Enter Price: ",1)
-    cur.execute(f"update food set fno={fno},fname='{fname}',type'{ftype}',price={price});")
+    cur.execute(f"update food set fno={fno},fname='{fname}',type='{ftype}',price={price});")
     del fno,x,ch,fname,ftype,price
     con.commit()
     print("Success")
