@@ -101,11 +101,7 @@ def enter_correct(var_msg,var=0):                                             # 
                 time.sleep(1)
                 main()
             val = int(val)
-<<<<<<< HEAD
         except ValueError:
-=======
-        except c.errors:
->>>>>>> a3bdb9f83fcbe9bd88a9e3b0d2364d92a87924ee
             print("\n--------------\nInvalid Option\n--------------\n")
 
         return val
