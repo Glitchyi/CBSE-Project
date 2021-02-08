@@ -11,8 +11,8 @@ import time
 
 # Functions--------------------
  
-def main():                                                                 # This is the main function  and is where the program starts from.
-    print ("Choose Category".upper())
+def main():                                                                 # This is the main function and is where the.......................
+    print ("Choose Category".upper())                                       # program starts from.
     print("---------------")                                                # The main categories
     print("1. FOOD")
     print("2. CUSTOMER")
