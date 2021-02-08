@@ -138,8 +138,8 @@ def add():                                                                    # 
 
 # Delete -----------------------------
 
-def delete(fno):                                                              # This function deals with the deletion of a food record from the menu.
-    cur.execute(f"select * from food where fno = {fno};")
+def delete(fno):                                                              # This function deals with the deletion of a food record
+    cur.execute(f"select * from food where fno = {fno};")                     # from the menu.
 
     for i in cur.fetchall():
         for j in i:
@@ -203,10 +203,10 @@ def display():                                                                # 
 # Search ---------------------------
  
  def search(f_info):
-    cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))     # This function helps to search for a specific food item and if it doesn't exist,
-    if len(cur.fetchall())==0:                                                                              # it informs the user and returns to the previous menu.
-        print("\n")
-        print("Invalid Search Query Or List Is Empty.")
+    cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))     
+    if len(cur.fetchall())==0:                                                   # This function helps to search for a specific food 
+        print("\n")                                                              # item and if it doesn't exist,
+        print("Invalid Search Query Or List Is Empty.")                          # it informs the user and returns to the previous menu.
         print("If Not, Try Checking The Spelling Or The Food Number")
         time.sleep(1)
         print("returning to previous menu\n".title())
@@ -226,8 +226,8 @@ def display():                                                                # 
 
 # Update------------------------------
 
-def update():                                                                 # Update function helps with the updation of a food item in the menu.
-    fno = enter_correct("Enter Food ID: ",1)
+def update():                                                                 # Update function helps with the updation of a food item
+    fno = enter_correct("Enter Food ID: ",1)                                  # in the menu.
     x=0
     try:
         cur.execute(f"select * from food where fno like {fno};")
@@ -263,15 +263,15 @@ def update():                                                                 # 
 # Customer Relations --------------------
  
  
-def customs(customer_name):                                                   # This function deals with creating a log of customer details, order info, the time and date of the transaction
-    with open('customer.csv', newline='', mode='r') as file2:                 # This log is kept as a simplified copy of the bill, ussualy for the restraunt owner. 
-        row_count = len(list(csv.reader(file2, delimiter=","))) + 1           # This log file is a csv file, that can be easily indexed and analysed by restraunt owner. 
-        file2.close()
-    with open('customer.csv',newline='',mode='a+') as file:
-        writer = csv.writer(file)
-        t = time.localtime()
-        current_time = time.strftime("%I:%M:%S %p , %d/%m/%Y", t)             # recording the time
-        the_bill={}                                                           # initialising the bill
+def customs(customer_name):                                                   # This function deals with creating a log of
+    with open('customer.csv', newline='', mode='r') as file2:                 # customer details, order info, the time 
+        row_count = len(list(csv.reader(file2, delimiter=","))) + 1           # and date of the transaction. This log 
+        file2.close()                                                         # is kept as a simplified copy of the bill,
+    with open('customer.csv',newline='',mode='a+') as file:                   # usualy for the restraunt owner. This log
+        writer = csv.writer(file)                                             # file is a csv file, that can be easily
+        t = time.localtime()                                                  # indexed and analysed by restraunt owner.
+        current_time = time.strftime("%I:%M:%S %p , %d/%m/%Y", t)                           # recording the time
+        the_bill={}                                                                         # initialising the bill
         if enter_correct(f"Proceed Billing Of {customer_name}: ").lower()!='y':
             customer()
         else:
@@ -307,8 +307,8 @@ def customs(customer_name):                                                   # 
  
 # Printing Of The Bill ---------------------------- 
   
-def billprint(bill):                                                          # This function is used to print the bill according to the above done entries in a structural manner
-    global names
+def billprint(bill):                                                          # This function is used to print the bill according to
+    global names                                                              # the above done entries in a structural manner
     cur.execute("select fname from food;")
     try:
         names=cur.fetchall()
@@ -410,8 +410,8 @@ def billprint(bill):                                                          # 
 
 # Customer Info Logging -------------------------
 
-def customs_read():                                                           # Function helps to read the bill log on the hard disk of the computer. (customer.csv)
-    with open('customer.csv',newline='',mode='r') as file:
+def customs_read():                                                           # Function helps to read the bill log on the hard disk
+    with open('customer.csv',newline='',mode='r') as file:                    # of the computer. (customer.csv)
         reader = csv.reader(file)
         if os.stat('customer.csv').st_size > 0:
             pass
@@ -437,8 +437,8 @@ cur = con.cursor()
 
 # Mailing Of Bills -----------------------
 
-def mail(email_id,bill):                                                      # This function will sent the bill to the intended recipient's email id, if requested 
-    port = 465  # For SSL
+def mail(email_id,bill):                                                      # This function will sent the bill to the intended 
+    port = 465  # For SSL                                                     # recipient's email id, if requested 
     smtp_server = "smtp.gmail.com"
     sender_email = "thelakochi@gmail.com"  # Enter your address
     receiver_email = str(email_id)  # Enter receiver address
