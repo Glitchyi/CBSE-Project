@@ -264,7 +264,7 @@ def update():                                                                 # 
     fname = enter_correct("Enter Food Name: ")
     ftype = enter_correct("Enter Food Type: ")
     price = enter_correct("Enter Price: ",1)
-    cur.execute(f"update food set fno={fno},fname='{fname}',type='{ftype}',price={price});")
+    cur.execute(f"update food set fname='{fname}',type='{ftype}',price={price} where fno={fno};")
     del fno,x,ch,fname,ftype,price
     con.commit()
     print("Success")
@@ -284,6 +284,7 @@ def customs(customer_name):                                                   # 
         t = time.localtime()                                                  # indexed and analysed by restraunt owner.
         current_time = time.strftime("%I:%M:%S %p , %d/%m/%Y", t)                           # recording the time
         the_bill={}                                                                         # initialising the bill
+        num=enter_correct("Enter The Phone Number Of The Customer: ",1)
         if enter_correct(f"Proceed Billing Of {customer_name}: ").lower()!='y':
             customer()
         else:
@@ -306,11 +307,9 @@ def customs(customer_name):                                                   # 
                         print("Invalid Search Query Or List Is Empty.")
                         print("If Not, Try Checking The Food Number")
                         time.sleep(2.5)
-                        print("returning to previous menu\n".title())
-                        time.sleep(1)
-                        customer()
-        billprint(the_bill)
-        writer.writerow([row_count,current_time,customer_name,the_bill])
+        print(the_bill)
+        billprint(the_bill,customer_name,num)
+        writer.writerow([row_count,current_time,customer_name,num,the_bill])
         del row_count,writer,t,current_time,the_bill,fno,res,qun
         print("Success")
         time.sleep(2)
@@ -319,7 +318,7 @@ def customs(customer_name):                                                   # 
  
 # Printing Of The Bill ---------------------------- 
   
-def billprint(bill):                                                          # This function is used to print the bill according to
+def billprint(bill,name,num):                                                          # This function is used to print the bill according to
     global names                                                              # the above done entries in a structural manner
     cur.execute("select fname from food;")
     try:
@@ -336,8 +335,11 @@ def billprint(bill):                                                          # 
     Body=str('-' * (x + 40))+'\n'
     Body+=str('|' + "LA KOCHI".center(x + 38) + '|')+'\n'
     Body+=str('-' * (x + 40))+'\n'
+    Body += ("| Customer Name" + " " * (x + 22-len(name)) + f"{name}  |") + '\n'
+    Body += ("| Customer Number" + " " * (x + 20 - len(str(num))) + f"{num}  |") + '\n'
+    Body += str('-' * (x + 40)) + '\n'
     Body+=str("| Slno    Food name" + " " * (x - 7) + "Qty    Unit Price    Price |")+'\n'
-
+    Body += str('-' * (x + 40)) + '\n'
     l = []
 
     for i in bill.keys():
@@ -358,7 +360,13 @@ def billprint(bill):                                                          # 
 
     Body+=('-' * (x + 40))+'\n'
     Body+=("| TOTAL" + " " * (x + 30 - len(str(TOTAL))) + f"{TOTAL}  |")+'\n'
+    Body += ("| CGST" + " " * (x + 28) + f"9 %  |") + '\n'
+    Body += ("| SGST" + " " * (x + 28) + f"9 %  |") + '\n'
+    TOTAL = TOTAL * (118 / 100)
     Body+=('-' * (x + 40))+'\n'
+    Body += ("| GRAND TOTAL" + " " * (x + 17 - len(str(round(TOTAL, 2)))) + f"{round(TOTAL, 2)} Rupees  |") + '\n'
+    Body += ('-' * (x + 40)) + '\n'
+    Body += ('-' * (x + 40)) + '\n'
     Body+=("| HOPE YOU HAVE A WONDERFUL DAY AHEAD (*^v^*)" + " " * (x - 6) + '|')+'\n'
     Body+=('-' * (x + 40))+'\n'
  
@@ -373,7 +381,6 @@ def billprint(bill):                                                          # 
         mail(mailid,Body)
 
     del names,x,Body,Food_Name,Unit_Price,Final_Price,Quantity,TOTAL,ask
-    print("Success")
     time.sleep(2)
  
 #----------------------------- 
