@@ -360,10 +360,10 @@ def billprint(bill,name,num):                                                   
 
     Body+=('-' * (x + 40))+'\n'
     Body+=("| TOTAL" + " " * (x + 30 - len(str(TOTAL))) + f"{TOTAL}  |")+'\n'
-    Body += ("| CGST" + " " * (x + 28) + f"9 %  |") + '\n'
-    Body += ("| SGST" + " " * (x + 28) + f"9 %  |") + '\n'
-    TOTAL = TOTAL * (118 / 100)
-    Body+=('-' * (x + 40))+'\n'
+    Body += ("| CGST" + " " * (x + 28) + f"8 %  |") + '\n'
+    Body += ("| SGST" + " " * (x + 28) + f"8 %  |") + '\n'
+    TOTAL += 2 * (TOTAL * (8 / 100))
+    Body +=('-' * (x + 40))+'\n'
     Body += ("| GRAND TOTAL" + " " * (x + 17 - len(str(round(TOTAL, 2)))) + f"{round(TOTAL, 2)} Rupees  |") + '\n'
     Body += ('-' * (x + 40)) + '\n'
     Body += ('-' * (x + 40)) + '\n'
