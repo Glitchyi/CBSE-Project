@@ -292,6 +292,8 @@ def customs(customer_name):                                                   # 
                 fno = enter_correct("Enter Food Number: ", 1)
                 if fno == 0:
                     break
+                if fno=='':
+                    pass
                 else:
                     try:
                         cur.execute(f"select * from food where fno like {fno};")
@@ -307,8 +309,11 @@ def customs(customer_name):                                                   # 
                         print("Invalid Search Query Or List Is Empty.")
                         print("If Not, Try Checking The Food Number")
                         time.sleep(2.5)
-        print(the_bill)
-        billprint(the_bill,customer_name,num)
+        if enter_correct("Is This Order A Parcel?: ").lower()=='y':
+            parcel=True
+        else:
+            parcel=False
+        billprint(the_bill,customer_name,num,parcel)
         writer.writerow([row_count,current_time,customer_name,num,the_bill])
         del row_count,writer,t,current_time,the_bill,fno,res,qun
         print("Success")
@@ -318,7 +323,7 @@ def customs(customer_name):                                                   # 
  
 # Printing Of The Bill ---------------------------- 
   
-def billprint(bill,name,num):                                                          # This function is used to print the bill according to
+def billprint(bill,name,num,parcel):                                                          # This function is used to print the bill according to
     global names                                                              # the above done entries in a structural manner
     cur.execute("select fname from food;")
     try:
@@ -363,6 +368,9 @@ def billprint(bill,name,num):                                                   
     Body += ("| CGST" + " " * (x + 28) + f"8 %  |") + '\n'
     Body += ("| SGST" + " " * (x + 28) + f"8 %  |") + '\n'
     TOTAL += 2 * (TOTAL * (8 / 100))
+    if parcel:
+        TOTAL+=50
+        Body += ("| PARCEL" + " " * (x + 26) + f"50   |") + '\n'
     Body +=('-' * (x + 40))+'\n'
     Body += ("| GRAND TOTAL" + " " * (x + 17 - len(str(round(TOTAL, 2)))) + f"{round(TOTAL, 2)} Rupees  |") + '\n'
     Body += ('-' * (x + 40)) + '\n'
