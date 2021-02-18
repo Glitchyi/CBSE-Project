@@ -1,3 +1,4 @@
+create database lakochi;
 use lakochi;
 drop table food;
 create table food (fno int(3) Primary key,fname varchar(50),type varchar(20),price int(5));

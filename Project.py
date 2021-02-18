@@ -122,13 +122,24 @@ def enter_correct(var_msg,var=0):                                             # 
 
 def add():                                                                    # This function helps us add a new food item to the 
     x = enter_correct("Enter Food ID: ",1)                                    # table, it checks the wether a simmilar entry exists or
-    cur.execute("select fno from food;")                                      # not,and if not gives us an option to add it to the 
-    for i in cur.fetchall():                                                  # food menu.
+    cur.execute("select fno from food;")                                      # not,and if not gives us an option to add it to the
+    l = cur.fetchall()
+    print(l)
+    lastno = l[-1][0]+1
+    for i in l:                                                  # food menu.
         if x == i[-1]:
             print("\nThis ID Already Exists\n")
             time.sleep(3)
-            food()
-
+            print(f"Try {lastno}")
+            x = enter_correct("Enter Food ID: ", 1)
+            if x == i[-1]:
+                print("\nThis ID Already Exists\n")
+                print(f"Try {lastno}")
+                x = enter_correct("Enter Food ID: ", 1)
+                if x == i[-1]:
+                    print("\nThis ID Already Exists\n")
+                    print("Too Many Attempts")
+                    food()
     y = enter_correct("Enter Food Name: ")
     z = enter_correct("Enter Food Type: ")
     w = enter_correct("Enter Price: ",1)
@@ -144,18 +155,13 @@ def add():                                                                    # 
 
 def delete(fno):                                                              # This function deals with the deletion of a food record
     cur.execute(f"select * from food where fno = {fno};")                     # from the menu.
+    name=cur.fetchall()
+    waste = enter_correct(f"Are you sure you want to delete \n{name[0]}\n Press to confirm press y: ".title())
+    if waste.upper() == "y":
+        cur.execute("delete from food where fno = {};".format(fno))
+        con.commit()
+    del waste,name
 
-    for i in cur.fetchall():
-        for j in i:
-            print(j, end=" ")
-        print("\n")
-    waste = enter_correct("""Are you sure you want to delete
-    Press enter to confirm/press b and enter to go back: """.title())
-    if waste.upper() == "B":
-        food()
-    del waste
-    cur.execute("delete from food where fno = {};".format(fno))
-    con.commit()
     print("Success")
     time.sleep(2)
  
@@ -411,7 +417,7 @@ def customs_read():                                                           # 
     print("Success")
     time.sleep(2)
 
-
+                                                               #nice
 #-----------------------------
 
 # Connector ------------------------------
