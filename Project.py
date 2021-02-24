@@ -422,7 +422,7 @@ def customs_read():                                                           # 
 
 # Connector ------------------------------
 
-con = c.connect(host="localhost", user="root", passwd="1234", database="lakochi")
+con = c.connect(host="remotemysql.com", user="ZLI3GiQekn", passwd="MEYWGMDfJD", database="ZLI3GiQekn")
 cur = con.cursor()
 
 #-----------------------------
