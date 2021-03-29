@@ -22,7 +22,7 @@ def main():                                                                 # Th
         food()
     elif choice==2:
         customer()
-    elif choice==4:
+    elif choice==3:
         print("Are You sure to exit?")
         dump=enter_correct("Enter Y : ")
         if (dump.upper()).strip()=='Y':
