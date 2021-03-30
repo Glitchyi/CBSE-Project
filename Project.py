@@ -5,9 +5,13 @@ import csv
 
 # OUT OF SYLABUSS (～￣▽￣)～
 
-import smtplib, ssl
+import smtplib
 import os
 import time
+import email.mime.multipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 
 # Functions--------------------
  
@@ -103,7 +107,7 @@ def enter_correct(var_msg,var=0):                                             # 
             val = int(val)
         except ValueError:
             print("\n--------------\nInvalid Option\n--------------\n")
-
+            main()
         return val
     else:
         if (val.lower()).strip() == 'quit':
@@ -124,7 +128,6 @@ def add():                                                                    # 
     x = enter_correct("Enter Food ID: ",1)                                    # table, it checks the wether a simmilar entry exists or
     cur.execute("select fno from food;")                                      # not,and if not gives us an option to add it to the
     l = cur.fetchall()
-    print(l)
     lastno = l[-1][0]+1
     for i in l:                                                  # food menu.
         if x == i[-1]:
@@ -218,7 +221,7 @@ def display():                                                                # 
 # Search ---------------------------
  
 def search(f_info):
-    cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))     
+    cur.execute("select * from food where fno = {} or fname like '%{}%';".format(f_info,f_info))     
     if len(cur.fetchall())==0:                                                   # This function helps to search for a specific food 
         print("\n")                                                              # item and if it doesn't exist,
         print("Invalid Search Query Or List Is Empty.")                          # it informs the user and returns to the previous menu.
@@ -430,20 +433,64 @@ cur = con.cursor()
 # Mailing Of Bills -----------------------
 
 def mail(email_id,bill):                                                      # This function will sent the bill to the intended 
-    port = 465  # For SSL                                                     # recipient's email id, if requested 
-    smtp_server = "smtp.gmail.com"
-    sender_email = "thelakochi@gmail.com"  # Enter your address
-    receiver_email = str(email_id)  # Enter receiver address
-    password = "thelakochi"
-    message = f"""\
-    Bill Recipt From The La Kochi Hotel ^_^
+    fromaddr = "thelakochi@gmail.com"
+    toaddr = f"{email_id}"
 
-    {bill}"""
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
-    del port,smtp_server,sender_email,receiver_email,password,message,context
+    # instance of MIMEMultipart
+    msg = email.mime.multipart.MIMEMultipart()
+
+    # storing the senders email address
+    msg['From'] = fromaddr
+
+    # storing the receivers email address
+    msg['To'] = toaddr
+
+    # storing the subject
+    msg['Subject'] = "Bill Recipt For The LaKochi Restraunt"
+
+    # string to store the body of the mail
+    body = "The Billi is Provided as a txt file" 
+
+    # attach the body with the msg instance
+    msg.attach(MIMEText(body, 'plain'))
+
+    # open the file to be sent
+    filename = "Bill.txt"
+    attachment = open("Bill.txt", "rb")
+
+    # instance of MIMEBase and named as p
+    p = MIMEBase('application', 'octet-stream')
+
+    # To change the payload into encoded form
+    p.set_payload(attachment.read())
+
+    # encode into base64
+    encoders.encode_base64(p)
+
+    p.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+
+    # attach the instance 'p' to instance 'msg'
+    msg.attach(p)
+
+    # creates SMTP session
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+
+    # start TLS for security
+    s.starttls()
+
+# Au    thentication
+    s.login(fromaddr, "thelakochi")
+
+    # Converts the Multipart msg into a string
+    text = msg.as_string()
+
+    # sending the mail
+    s.sendmail(fromaddr, toaddr, text)
+
+    # terminating the session
+    s.quit()
+    
+
 
 #-----------------------------
 
