@@ -5,20 +5,16 @@ import csv
 
 # OUT OF SYLABUSS (～￣▽￣)～
 
-import smtplib
+import smtplib, ssl
 import os
 import time
-import email.mime.multipart
-from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
 
 # Functions--------------------
- 
-def main():                                                                 # This is the main function and is where the program 
+
+def main():                                                                 # This is the main function and is where the program
     print ("Choose Category".upper())                                       # starts from.
-    print("---------------")                                                # The main categories                                  
-    print("1. FOOD")                                                        
+    print("---------------")                                                # The main categories
+    print("1. FOOD")
     print("2. CUSTOMER")
     print("3. EXIT")
     choice = enter_correct("Enter The Option: ",1)
@@ -34,7 +30,7 @@ def main():                                                                 # Th
 
 # Food -----------------------------
 
-def food():                                                                  # Function deals with all functions that alter the 
+def food():                                                                  # Function deals with all functions that alter the
     while True:                                                              # table food and its contents
         print("\n")
         print("FOOD")
@@ -93,8 +89,8 @@ def customer():                                                               # 
 
 
 def enter_correct(var_msg,var=0):                                             # This function prevents the program from crashing
-    val = input(var_msg)                                                      # with any errors that occur in the program it solves 
-    if var==1:                                                                # them, or returns to the main program. 
+    val = input(var_msg)                                                      # with any errors that occur in the program it solves
+    if var==1:                                                                # them, or returns to the main program.
         try:                                                                  # This is also a failsafe to abort the current action
             if (val.lower()).strip() == 'quit':                               # and return to the main program.
                 print("\n------------------------")
@@ -107,7 +103,7 @@ def enter_correct(var_msg,var=0):                                             # 
             val = int(val)
         except ValueError:
             print("\n--------------\nInvalid Option\n--------------\n")
-            main()
+
         return val
     else:
         if (val.lower()).strip() == 'quit':
@@ -124,10 +120,11 @@ def enter_correct(var_msg,var=0):                                             # 
 
 # Add------------------------------
 
-def add():                                                                    # This function helps us add a new food item to the 
+def add():                                                                    # This function helps us add a new food item to the
     x = enter_correct("Enter Food ID: ",1)                                    # table, it checks the wether a simmilar entry exists or
     cur.execute("select fno from food;")                                      # not,and if not gives us an option to add it to the
     l = cur.fetchall()
+    print(l)
     lastno = l[-1][0]+1
     for i in l:                                                  # food menu.
         if x == i[-1]:
@@ -167,9 +164,9 @@ def delete(fno):                                                              # 
 
     print("Success")
     time.sleep(2)
- 
+
 #-----------------------------
- 
+
 # Display ------------------------------
 
 def display():                                                                # Displays the entire menu of restaurant.
@@ -219,10 +216,10 @@ def display():                                                                # 
 #------------------------------
 
 # Search ---------------------------
- 
+
 def search(f_info):
-    cur.execute("select * from food where fno = {} or fname like '%{}%';".format(f_info,f_info))     
-    if len(cur.fetchall())==0:                                                   # This function helps to search for a specific food 
+    cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))
+    if len(cur.fetchall())==0:                                                   # This function helps to search for a specific food
         print("\n")                                                              # item and if it doesn't exist,
         print("Invalid Search Query Or List Is Empty.")                          # it informs the user and returns to the previous menu.
         print("If Not, Try Checking The Spelling Or The Food Number")
@@ -282,11 +279,11 @@ def update():                                                                 # 
 #--------------------------------
 
 # Customer Relations --------------------
- 
- 
+
+
 def customs(customer_name):                                                   # This function deals with creating a log of
-    with open('customer.csv', newline='', mode='r') as file2:                 # customer details, order info, the time 
-        row_count = len(list(csv.reader(file2, delimiter=","))) + 1           # and date of the transaction. This log 
+    with open('customer.csv', newline='', mode='r') as file2:                 # customer details, order info, the time
+        row_count = len(list(csv.reader(file2, delimiter=","))) + 1           # and date of the transaction. This log
         file2.close()                                                         # is kept as a simplified copy of the bill,
     with open('customer.csv',newline='',mode='a+') as file:                   # usualy for the restraunt owner. This log
         writer = csv.writer(file)                                             # file is a csv file, that can be easily
@@ -328,10 +325,10 @@ def customs(customer_name):                                                   # 
         print("Success")
         time.sleep(2)
 
-#-----------------------------  
- 
-# Printing Of The Bill ---------------------------- 
-  
+#-----------------------------
+
+# Printing Of The Bill ----------------------------
+
 def billprint(bill,name,num,parcel):                                                          # This function is used to print the bill according to
     global names                                                              # the above done entries in a structural manner
     cur.execute("select fname from food;")
@@ -386,7 +383,7 @@ def billprint(bill,name,num,parcel):                                            
     Body += ('-' * (x + 40)) + '\n'
     Body+=("| HOPE YOU HAVE A WONDERFUL DAY AHEAD (*^v^*)" + " " * (x - 6) + '|')+'\n'
     Body+=('-' * (x + 40))+'\n'
- 
+
     print(Body)
 
     # Mail -----------------------------------------
@@ -395,12 +392,12 @@ def billprint(bill,name,num,parcel):                                            
 
     if (ask.upper()).strip()=='Y':
         mailid=enter_correct("Please Enter Your Email ID: ")
-        mail(mailid)
+        mail(mailid,Body)
 
     del names,x,Body,Food_Name,Unit_Price,Final_Price,Quantity,TOTAL,ask
     time.sleep(2)
- 
-#----------------------------- 
+
+#-----------------------------
 
 # Customer Info Logging -------------------------
 
@@ -432,65 +429,21 @@ cur = con.cursor()
 
 # Mailing Of Bills -----------------------
 
-def mail(email_id):                                                      # This function will sent the bill to the intended
-    fromaddr = "thelakochi@gmail.com"
-    toaddr = f"{email_id}"
+def mail(email_id,bill):                                                      # This function will sent the bill to the intended
+    port = 465  # For SSL                                                     # recipient's email id, if requested
+    smtp_server = "smtp.gmail.com"
+    sender_email = "thelakochi@gmail.com"  # Enter your address
+    receiver_email = str(email_id)  # Enter receiver address
+    password = "thelakochi"
+    message = f"""\
+    Bill Recipt From The La Kochi Hotel ^_^
 
-    # instance of MIMEMultipart
-    msg = email.mime.multipart.MIMEMultipart()
-
-    # storing the senders email address
-    msg['From'] = fromaddr
-
-    # storing the receivers email address
-    msg['To'] = toaddr
-
-    # storing the subject
-    msg['Subject'] = "Bill Recipt For The LaKochi Restraunt"
-
-    # string to store the body of the mail
-    body = "The Bill is Provided as a txt file"
-
-    # attach the body with the msg instance
-    msg.attach(MIMEText(body, 'plain'))
-
-    # open the file to be sent
-    filename = "Bill.txt"
-    attachment = open("Bill.txt", "rb")
-
-    # instance of MIMEBase and named as p
-    p = MIMEBase('application', 'octet-stream')
-
-    # To change the payload into encoded form
-    p.set_payload(attachment.read())
-
-    # encode into base64
-    encoders.encode_base64(p)
-
-    p.add_header('Content-Disposition', "attachment; filename= %s" % filename)
-
-    # attach the instance 'p' to instance 'msg'
-    msg.attach(p)
-
-    # creates SMTP session
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-
-    # start TLS for security
-    s.starttls()
-
-# Au    thentication
-    s.login(fromaddr, "thelakochi")
-
-    # Converts the Multipart msg into a string
-    text = msg.as_string()
-
-    # sending the mail
-    s.sendmail(fromaddr, toaddr, text)
-
-    # terminating the session
-    s.quit()
-    
-
+    {bill}"""
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message)
+    del port,smtp_server,sender_email,receiver_email,password,message,context
 
 #-----------------------------
 
