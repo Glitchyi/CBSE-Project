@@ -395,7 +395,7 @@ def billprint(bill,name,num,parcel):                                            
 
     if (ask.upper()).strip()=='Y':
         mailid=enter_correct("Please Enter Your Email ID: ")
-        mail(mailid,Body)
+        mail(mailid)
 
     del names,x,Body,Food_Name,Unit_Price,Final_Price,Quantity,TOTAL,ask
     time.sleep(2)
@@ -432,7 +432,7 @@ cur = con.cursor()
 
 # Mailing Of Bills -----------------------
 
-def mail(email_id,bill):                                                      # This function will sent the bill to the intended 
+def mail(email_id):                                                      # This function will sent the bill to the intended
     fromaddr = "thelakochi@gmail.com"
     toaddr = f"{email_id}"
 
@@ -449,7 +449,7 @@ def mail(email_id,bill):                                                      # 
     msg['Subject'] = "Bill Recipt For The LaKochi Restraunt"
 
     # string to store the body of the mail
-    body = "The Billi is Provided as a txt file" 
+    body = "The Bill is Provided as a txt file"
 
     # attach the body with the msg instance
     msg.attach(MIMEText(body, 'plain'))
