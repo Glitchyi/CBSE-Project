@@ -49,7 +49,7 @@ def food():                                                                  # F
             x=enter_correct("Fno: ",1)
             delete(x)
         elif choice == 3:
-            update()
+            update(enter_correct("Enter Food ID: ",1)  )
         elif choice ==4:
             display()
         elif choice == 5:
@@ -242,8 +242,8 @@ def search(f_info):
 
 # Update------------------------------
 
-def update():                                                                 # Update function helps with the updation of a food item
-    fno = enter_correct("Enter Food ID: ",1)                                  # in the menu.
+def update(fno):                                                                 # Update function helps with the updation of a food item
+                                    # in the menu.
     x=0
     try:
         cur.execute(f"select * from food where fno like {fno};")
