@@ -395,7 +395,8 @@ def billprint(bill,name,num,parcel):                                            
     # Mail -----------------------------------------
 
     ask=enter_correct("\nDo you Want the bill to be mailed to you?: ")
-
+    with open("Bill.txt","w") as f: 
+        f.write(Body)
     if (ask.upper()).strip()=='Y':
         mailid=enter_correct("Please Enter Your Email ID: ")
         mail(mailid)
