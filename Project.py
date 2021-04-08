@@ -398,7 +398,7 @@ def billprint(bill,name,num,parcel):                                            
 
     if (ask.upper()).strip()=='Y':
         mailid=enter_correct("Please Enter Your Email ID: ")
-        mail(mailid,Body)
+        mail(mailid)
     del (bill,name,num,parcel,Body,ask,total,mailid,Food_Name,Quantity,Unit_Price,Final_Price)
     time.sleep(2)
 
