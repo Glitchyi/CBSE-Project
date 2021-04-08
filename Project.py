@@ -122,29 +122,24 @@ def enter_correct(var_msg,var=0):                                             # 
 
 def add():                                                                    # This function helps us add a new food item to the
     x = enter_correct("Enter Food ID: ",1)                                    # table, it checks the wether a simmilar entry exists or
+    if x=="":
+        time.sleep(1)
+        food()
     cur.execute("select fno from food;")                                      # not,and if not gives us an option to add it to the
     l = cur.fetchall()
-    print(l)
     lastno = l[-1][0]+1
     for i in l:                                                  # food menu.
         if x == i[-1]:
             print("\nThis ID Already Exists\n")
-            time.sleep(3)
+            time.sleep(1)
             print(f"Try {lastno}")
-            x = enter_correct("Enter Food ID: ", 1)
-            if x == i[-1]:
-                print("\nThis ID Already Exists\n")
-                print(f"Try {lastno}")
-                x = enter_correct("Enter Food ID: ", 1)
-                if x == i[-1]:
-                    print("\nThis ID Already Exists\n")
-                    print("Too Many Attempts")
-                    food()
+            time.sleep(2)
+            food()
+                    
     y = enter_correct("Enter Food Name: ")
     z = enter_correct("Enter Food Type: ")
     w = enter_correct("Enter Price: ",1)
     cur.execute("insert into food values({},'{}','{}',{});".format(x, y, z,w))
-    del x,y,z,w
     con.commit()
     print("Success")
     time.sleep(2)
@@ -154,13 +149,15 @@ def add():                                                                    # 
 # Delete -----------------------------
 
 def delete(fno):                                                              # This function deals with the deletion of a food record
-    cur.execute(f"select * from food where fno = {fno};")                     # from the menu.
+    try:
+	    cur.execute(f"select * from food where fno = {fno};")                     # from the menu.
+    except:
+	    food()
     name=cur.fetchall()
     waste = enter_correct(f"Are you sure you want to delete \n{name[0]}\n Press to confirm press y: ".title())
     if waste.upper() == "y":
         cur.execute("delete from food where fno = {};".format(fno))
         con.commit()
-    del waste,name
 
     print("Success")
     time.sleep(2)
@@ -207,7 +204,6 @@ def display():                                                                # 
         print("\n")
         print("---------------------------------------------------------------------------")
     else:
-        del dash, na
         print("That's folks!")
 
     print("Success")
@@ -218,7 +214,10 @@ def display():                                                                # 
 # Search ---------------------------
 
 def search(f_info):
-    cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))
+    try:
+	    cur.execute("select * from food where fno like '%{}%' or fname like '%{}%';".format(f_info,f_info))
+    except:
+	    food()
     if len(cur.fetchall())==0:                                                   # This function helps to search for a specific food
         print("\n")                                                              # item and if it doesn't exist,
         print("Invalid Search Query Or List Is Empty.")                          # it informs the user and returns to the previous menu.
@@ -243,8 +242,7 @@ def search(f_info):
 # Update------------------------------
 
 def update(fno):                                                                 # Update function helps with the updation of a food item
-                                    # in the menu.
-    x=0
+    x=0                                                                          # in the menu.
     try:
         cur.execute(f"select * from food where fno like {fno};")
         x = cur.fetchall()
@@ -271,7 +269,6 @@ def update(fno):                                                                
     ftype = enter_correct("Enter Food Type: ")
     price = enter_correct("Enter Price: ",1)
     cur.execute(f"update food set fname='{fname}',type='{ftype}',price={price} where fno={fno};")
-    del fno,x,ch,fname,ftype,price
     con.commit()
     print("Success")
     time.sleep(2)
@@ -321,7 +318,6 @@ def customs(customer_name):                                                   # 
             parcel=False
         billprint(the_bill,customer_name,num,parcel)
         writer.writerow([row_count,current_time,customer_name,num,the_bill])
-        del row_count,writer,t,current_time,the_bill,fno,res,qun
         print("Success")
         time.sleep(2)
 
@@ -394,7 +390,6 @@ def billprint(bill,name,num,parcel):                                            
         mailid=enter_correct("Please Enter Your Email ID: ")
         mail(mailid,Body)
 
-    del names,x,Body,Food_Name,Unit_Price,Final_Price,Quantity,TOTAL,ask
     time.sleep(2)
 
 #-----------------------------
@@ -413,7 +408,6 @@ def customs_read():                                                           # 
             print(i[1])
             print(i[2])
             print(i[3])
-    del reader
     print("Success")
     time.sleep(2)
 
@@ -443,7 +437,7 @@ def mail(email_id,bill):                                                      # 
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
-    del port,smtp_server,sender_email,receiver_email,password,message,context
+
 
 #-----------------------------
 
