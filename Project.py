@@ -249,7 +249,7 @@ def update(fno):                                                                
         cur.execute(f"select * from food where fno like {fno};")
         x = cur.fetchall()
     except c.errors:
-        pass
+        food()
     if len(x) == 0:
         print("\n")
         print("Invalid Search Query Or List Is Empty.")
