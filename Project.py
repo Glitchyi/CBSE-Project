@@ -26,7 +26,9 @@ def main():                                                                 # Th
         print("Are You sure to exit?")
         dump=enter_correct("Enter Y : ")
         if (dump.upper()).strip()=='Y':
+            del choice
             exit("Succesfully exited program")
+            
 
 # Food -----------------------------
 
@@ -103,8 +105,8 @@ def enter_correct(var_msg,var=0):                                             # 
             val = int(val)
         except ValueError:
             print("\n--------------\nInvalid Option\n--------------\n")
-
         return val
+        del val
     else:
         if (val.lower()).strip() == 'quit':
             print("\n------------------------")
@@ -115,6 +117,7 @@ def enter_correct(var_msg,var=0):                                             # 
             time.sleep(1)
             main()
         return val
+        del val
 
 #-------------------------------
 
@@ -141,6 +144,7 @@ def add():                                                                    # 
     w = enter_correct("Enter Price: ",1)
     cur.execute("insert into food values({},'{}','{}',{});".format(x, y, z,w))
     con.commit()
+    del (x,y,z,w)
     print("Success")
     time.sleep(2)
 
@@ -158,7 +162,7 @@ def delete(fno):                                                              # 
     if waste.upper() == "y":
         cur.execute("delete from food where fno = {};".format(fno))
         con.commit()
-
+    del (waste,name)
     print("Success")
     time.sleep(2)
 
@@ -205,7 +209,7 @@ def display():                                                                # 
         print("---------------------------------------------------------------------------")
     else:
         print("That's folks!")
-
+    del (dash,na)
     print("Success")
     time.sleep(2)
 
@@ -270,6 +274,7 @@ def update(fno):                                                                
     price = enter_correct("Enter Price: ",1)
     cur.execute(f"update food set fname='{fname}',type='{ftype}',price={price} where fno={fno};")
     con.commit()
+    del (x,ch,fname,ftype,price)
     print("Success")
     time.sleep(2)
 
@@ -318,6 +323,7 @@ def customs(customer_name):                                                   # 
             parcel=False
         billprint(the_bill,customer_name,num,parcel)
         writer.writerow([row_count,current_time,customer_name,num,the_bill])
+        del (row_count,current_time,customer_name,num,the_bill,qun,fno,res)
         print("Success")
         time.sleep(2)
 
@@ -360,21 +366,21 @@ def billprint(bill,name,num,parcel):                                            
         Quantity = str(bill[i][0]) + " " * (6 - len(str(bill[i][0])))
         Body+= f"| {i}{' ' * (7 - len(str(i)))} {Food_Name} {Quantity} {Unit_Price} {Final_Price}|\n"
 
-    TOTAL = 0
+    total = 0
 
     for j in l:
-        TOTAL += j
+        total += j
 
     Body+=('-' * (x + 40))+'\n'
-    Body+=("| TOTAL" + " " * (x + 30 - len(str(TOTAL))) + f"{TOTAL}  |")+'\n'
+    Body+=("| total" + " " * (x + 30 - len(str(total))) + f"{total}  |")+'\n'
     Body += ("| CGST" + " " * (x + 28) + f"8 %  |") + '\n'
     Body += ("| SGST" + " " * (x + 28) + f"8 %  |") + '\n'
-    TOTAL += 2 * (TOTAL * (8 / 100))
+    total += 2 * (total * (8 / 100))
     if parcel:
-        TOTAL+=50
+        total+=50
         Body += ("| PARCEL" + " " * (x + 26) + f"50   |") + '\n'
     Body +=('-' * (x + 40))+'\n'
-    Body += ("| GRAND TOTAL" + " " * (x + 17 - len(str(round(TOTAL, 2)))) + f"{round(TOTAL, 2)} Rupees  |") + '\n'
+    Body += ("| GRAND total" + " " * (x + 17 - len(str(round(total, 2)))) + f"{round(total, 2)} Rupees  |") + '\n'
     Body += ('-' * (x + 40)) + '\n'
     Body += ('-' * (x + 40)) + '\n'
     Body+=("| HOPE YOU HAVE A WONDERFUL DAY AHEAD (*^v^*)" + " " * (x - 6) + '|')+'\n'
@@ -389,7 +395,7 @@ def billprint(bill,name,num,parcel):                                            
     if (ask.upper()).strip()=='Y':
         mailid=enter_correct("Please Enter Your Email ID: ")
         mail(mailid,Body)
-
+    del (bill,name,num,parcel,Body,ask,total,mailid,Food_Name,Quantity,Unit_Price,Final_Price)
     time.sleep(2)
 
 #-----------------------------
@@ -408,6 +414,7 @@ def customs_read():                                                           # 
             print(i[1])
             print(i[2])
             print(i[3])
+    del reader
     print("Success")
     time.sleep(2)
 
@@ -437,7 +444,7 @@ def mail(email_id,bill):                                                      # 
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
-
+    del (port,smtp_server,sender_email,email_id,bill,receiver_email,context)
 
 #-----------------------------
 
