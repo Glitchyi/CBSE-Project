@@ -248,7 +248,7 @@ def update(fno):                                                                
     try:
         cur.execute(f"select * from food where fno like {fno};")
         x = cur.fetchall()
-    except c.errors:
+    except:
         food()
     if len(x) == 0:
         print("\n")
